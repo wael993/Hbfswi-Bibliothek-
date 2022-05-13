@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HBSFWI_BibleothekModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Auftraege">
+    <Key>
+      <PropertyRef Name="Auftrag_id" />
+    </Key>
+    <Property Name="Auftrag_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Auftrag_status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Auftrag_datum" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Benutzer_id" Type="Int32" />
+    <Property Name="ISBN" Type="Int32" />
+    <Property Name="FachNr" Type="Int32" />
+    <NavigationProperty Name="Benutzer" Relationship="Self.fk_A_Benutzer" FromRole="Auftraege" ToRole="Benutzer" />
+    <NavigationProperty Name="Buecher" Relationship="Self.fk_A_Buch" FromRole="Auftraege" ToRole="Buecher" />
+  </EntityType>
+  <EntityType Name="ausleihe_Prozess">
+    <Key>
+      <PropertyRef Name="Prozess_id" />
+    </Key>
+    <Property Name="Prozess_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Prozess_status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+    <Property Name="Prozess_datum" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="Benutzer_id" Type="Int32" />
+    <Property Name="ISBN" Type="Int32" />
+    <Property Name="FachNr" Type="Int32" />
+    <NavigationProperty Name="Benutzer" Relationship="Self.fk_Benutzer" FromRole="ausleihe_Prozess" ToRole="Benutzer" />
+    <NavigationProperty Name="Buecher" Relationship="Self.fk_Buch" FromRole="ausleihe_Prozess" ToRole="Buecher" />
+  </EntityType>
+  <EntityType Name="Benutzer">
+    <Key>
+      <PropertyRef Name="Benutzer_id" />
+    </Key>
+    <Property Name="Benutzer_id" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Passwort" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Vorname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Nachname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Rolle" Type="Int32" Nullable="false" />
+    <Property Name="Semester" Type="Int32" />
+    <Property Name="studiengang" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Auftraege" Relationship="Self.fk_A_Benutzer" FromRole="Benutzer" ToRole="Auftraege" />
+    <NavigationProperty Name="ausleihe_Prozess" Relationship="Self.fk_Benutzer" FromRole="Benutzer" ToRole="ausleihe_Prozess" />
+  </EntityType>
+  <EntityType Name="Buecher">
+    <Key>
+      <PropertyRef Name="ISBN" />
+    </Key>
+    <Property Name="ISBN" Type="Int32" Nullable="false" />
+    <Property Name="Buch_Titel" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Rechtung" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Beschreibung" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+    <Property Name="Anzahl" Type="Int32" />
+    <NavigationProperty Name="Auftraege" Relationship="Self.fk_A_Buch" FromRole="Buecher" ToRole="Auftraege" />
+    <NavigationProperty Name="ausleihe_Prozess" Relationship="Self.fk_Buch" FromRole="Buecher" ToRole="ausleihe_Prozess" />
+  </EntityType>
+  <Association Name="fk_A_Benutzer">
+    <End Role="Benutzer" Type="Self.Benutzer" Multiplicity="0..1" />
+    <End Role="Auftraege" Type="Self.Auftraege" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Benutzer">
+        <PropertyRef Name="Benutzer_id" />
+      </Principal>
+      <Dependent Role="Auftraege">
+        <PropertyRef Name="Benutzer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_A_Buch">
+    <End Role="Buecher" Type="Self.Buecher" Multiplicity="0..1" />
+    <End Role="Auftraege" Type="Self.Auftraege" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buecher">
+        <PropertyRef Name="ISBN" />
+      </Principal>
+      <Dependent Role="Auftraege">
+        <PropertyRef Name="ISBN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Benutzer">
+    <End Role="Benutzer" Type="Self.Benutzer" Multiplicity="0..1" />
+    <End Role="ausleihe_Prozess" Type="Self.ausleihe_Prozess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Benutzer">
+        <PropertyRef Name="Benutzer_id" />
+      </Principal>
+      <Dependent Role="ausleihe_Prozess">
+        <PropertyRef Name="Benutzer_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="fk_Buch">
+    <End Role="Buecher" Type="Self.Buecher" Multiplicity="0..1" />
+    <End Role="ausleihe_Prozess" Type="Self.ausleihe_Prozess" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Buecher">
+        <PropertyRef Name="ISBN" />
+      </Principal>
+      <Dependent Role="ausleihe_Prozess">
+        <PropertyRef Name="ISBN" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HBSFWI_BibleothekEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Auftraege" EntityType="Self.Auftraege" />
+    <EntitySet Name="ausleihe_Prozess" EntityType="Self.ausleihe_Prozess" />
+    <EntitySet Name="Benutzer" EntityType="Self.Benutzer" />
+    <EntitySet Name="Buecher" EntityType="Self.Buecher" />
+    <AssociationSet Name="fk_A_Benutzer" Association="Self.fk_A_Benutzer">
+      <End Role="Benutzer" EntitySet="Benutzer" />
+      <End Role="Auftraege" EntitySet="Auftraege" />
+    </AssociationSet>
+    <AssociationSet Name="fk_A_Buch" Association="Self.fk_A_Buch">
+      <End Role="Buecher" EntitySet="Buecher" />
+      <End Role="Auftraege" EntitySet="Auftraege" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Benutzer" Association="Self.fk_Benutzer">
+      <End Role="Benutzer" EntitySet="Benutzer" />
+      <End Role="ausleihe_Prozess" EntitySet="ausleihe_Prozess" />
+    </AssociationSet>
+    <AssociationSet Name="fk_Buch" Association="Self.fk_Buch">
+      <End Role="Buecher" EntitySet="Buecher" />
+      <End Role="ausleihe_Prozess" EntitySet="ausleihe_Prozess" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="HBSFWI_BibleothekModelStoreContainer" CdmEntityContainer="HBSFWI_BibleothekEntities">
+    <EntitySetMapping Name="Auftraege">
+      <EntityTypeMapping TypeName="HBSFWI_BibleothekModel.Auftraege">
+        <MappingFragment StoreEntitySet="Auftraege">
+          <ScalarProperty Name="Auftrag_id" ColumnName="Auftrag_id" />
+          <ScalarProperty Name="Auftrag_status" ColumnName="Auftrag_status" />
+          <ScalarProperty Name="Auftrag_datum" ColumnName="Auftrag_datum" />
+          <ScalarProperty Name="Benutzer_id" ColumnName="Benutzer_id" />
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+          <ScalarProperty Name="FachNr" ColumnName="FachNr" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ausleihe_Prozess">
+      <EntityTypeMapping TypeName="HBSFWI_BibleothekModel.ausleihe_Prozess">
+        <MappingFragment StoreEntitySet="ausleihe_Prozess">
+          <ScalarProperty Name="Prozess_id" ColumnName="Prozess_id" />
+          <ScalarProperty Name="Prozess_status" ColumnName="Prozess_status" />
+          <ScalarProperty Name="Prozess_datum" ColumnName="Prozess_datum" />
+          <ScalarProperty Name="Benutzer_id" ColumnName="Benutzer_id" />
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+          <ScalarProperty Name="FachNr" ColumnName="FachNr" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Benutzer">
+      <EntityTypeMapping TypeName="HBSFWI_BibleothekModel.Benutzer">
+        <MappingFragment StoreEntitySet="Benutzer">
+          <ScalarProperty Name="Benutzer_id" ColumnName="Benutzer_id" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Passwort" ColumnName="Passwort" />
+          <ScalarProperty Name="Vorname" ColumnName="Vorname" />
+          <ScalarProperty Name="Nachname" ColumnName="Nachname" />
+          <ScalarProperty Name="Rolle" ColumnName="Rolle" />
+          <ScalarProperty Name="Semester" ColumnName="Semester" />
+          <ScalarProperty Name="studiengang" ColumnName="studiengang" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Buecher">
+      <EntityTypeMapping TypeName="HBSFWI_BibleothekModel.Buecher">
+        <MappingFragment StoreEntitySet="Buecher">
+          <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+          <ScalarProperty Name="Buch_Titel" ColumnName="Buch_Titel" />
+          <ScalarProperty Name="Rechtung" ColumnName="Rechtung" />
+          <ScalarProperty Name="Beschreibung" ColumnName="Beschreibung" />
+          <ScalarProperty Name="Anzahl" ColumnName="Anzahl" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

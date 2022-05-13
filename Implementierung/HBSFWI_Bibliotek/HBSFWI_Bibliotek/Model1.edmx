@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="HBSFWI_BibleothekModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Auftraege">
+          <Key>
+            <PropertyRef Name="Auftrag_id" />
+          </Key>
+          <Property Name="Auftrag_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Auftrag_status" Type="nvarchar" MaxLength="20" />
+          <Property Name="Auftrag_datum" Type="date" Nullable="false" />
+          <Property Name="Benutzer_id" Type="int" />
+          <Property Name="ISBN" Type="int" />
+          <Property Name="FachNr" Type="int" />
+        </EntityType>
+        <EntityType Name="ausleihe_Prozess">
+          <Key>
+            <PropertyRef Name="Prozess_id" />
+          </Key>
+          <Property Name="Prozess_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Prozess_status" Type="nvarchar" MaxLength="20" />
+          <Property Name="Prozess_datum" Type="date" Nullable="false" />
+          <Property Name="Benutzer_id" Type="int" />
+          <Property Name="ISBN" Type="int" />
+          <Property Name="FachNr" Type="int" />
+        </EntityType>
+        <EntityType Name="Benutzer">
+          <Key>
+            <PropertyRef Name="Benutzer_id" />
+          </Key>
+          <Property Name="Benutzer_id" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Passwort" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Vorname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Nachname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Rolle" Type="int" Nullable="false" />
+          <Property Name="Semester" Type="int" />
+          <Property Name="studiengang" Type="nvarchar" MaxLength="25" />
+        </EntityType>
+        <EntityType Name="Buecher">
+          <Key>
+            <PropertyRef Name="ISBN" />
+          </Key>
+          <Property Name="ISBN" Type="int" Nullable="false" />
+          <Property Name="Buch_Titel" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Rechtung" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Beschreibung" Type="nvarchar" MaxLength="255" />
+          <Property Name="Anzahl" Type="int" />
+        </EntityType>
+        <Association Name="fk_A_Benutzer">
+          <End Role="Benutzer" Type="Self.Benutzer" Multiplicity="0..1" />
+          <End Role="Auftraege" Type="Self.Auftraege" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benutzer">
+              <PropertyRef Name="Benutzer_id" />
+            </Principal>
+            <Dependent Role="Auftraege">
+              <PropertyRef Name="Benutzer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_A_Buch">
+          <End Role="Buecher" Type="Self.Buecher" Multiplicity="0..1" />
+          <End Role="Auftraege" Type="Self.Auftraege" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Buecher">
+              <PropertyRef Name="ISBN" />
+            </Principal>
+            <Dependent Role="Auftraege">
+              <PropertyRef Name="ISBN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Benutzer">
+          <End Role="Benutzer" Type="Self.Benutzer" Multiplicity="0..1" />
+          <End Role="ausleihe_Prozess" Type="Self.ausleihe_Prozess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benutzer">
+              <PropertyRef Name="Benutzer_id" />
+            </Principal>
+            <Dependent Role="ausleihe_Prozess">
+              <PropertyRef Name="Benutzer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Buch">
+          <End Role="Buecher" Type="Self.Buecher" Multiplicity="0..1" />
+          <End Role="ausleihe_Prozess" Type="Self.ausleihe_Prozess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Buecher">
+              <PropertyRef Name="ISBN" />
+            </Principal>
+            <Dependent Role="ausleihe_Prozess">
+              <PropertyRef Name="ISBN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HBSFWI_BibleothekModelStoreContainer">
+          <EntitySet Name="Auftraege" EntityType="Self.Auftraege" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ausleihe_Prozess" EntityType="Self.ausleihe_Prozess" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Benutzer" EntityType="Self.Benutzer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Buecher" EntityType="Self.Buecher" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="fk_A_Benutzer" Association="Self.fk_A_Benutzer">
+            <End Role="Benutzer" EntitySet="Benutzer" />
+            <End Role="Auftraege" EntitySet="Auftraege" />
+          </AssociationSet>
+          <AssociationSet Name="fk_A_Buch" Association="Self.fk_A_Buch">
+            <End Role="Buecher" EntitySet="Buecher" />
+            <End Role="Auftraege" EntitySet="Auftraege" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Benutzer" Association="Self.fk_Benutzer">
+            <End Role="Benutzer" EntitySet="Benutzer" />
+            <End Role="ausleihe_Prozess" EntitySet="ausleihe_Prozess" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Buch" Association="Self.fk_Buch">
+            <End Role="Buecher" EntitySet="Buecher" />
+            <End Role="ausleihe_Prozess" EntitySet="ausleihe_Prozess" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HBSFWI_BibleothekModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Auftraege">
+          <Key>
+            <PropertyRef Name="Auftrag_id" />
+          </Key>
+          <Property Name="Auftrag_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Auftrag_status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Auftrag_datum" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Benutzer_id" Type="Int32" />
+          <Property Name="ISBN" Type="Int32" />
+          <Property Name="FachNr" Type="Int32" />
+          <NavigationProperty Name="Benutzer" Relationship="Self.fk_A_Benutzer" FromRole="Auftraege" ToRole="Benutzer" />
+          <NavigationProperty Name="Buecher" Relationship="Self.fk_A_Buch" FromRole="Auftraege" ToRole="Buecher" />
+        </EntityType>
+        <EntityType Name="ausleihe_Prozess">
+          <Key>
+            <PropertyRef Name="Prozess_id" />
+          </Key>
+          <Property Name="Prozess_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Prozess_status" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Prozess_datum" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Benutzer_id" Type="Int32" />
+          <Property Name="ISBN" Type="Int32" />
+          <Property Name="FachNr" Type="Int32" />
+          <NavigationProperty Name="Benutzer" Relationship="Self.fk_Benutzer" FromRole="ausleihe_Prozess" ToRole="Benutzer" />
+          <NavigationProperty Name="Buecher" Relationship="Self.fk_Buch" FromRole="ausleihe_Prozess" ToRole="Buecher" />
+        </EntityType>
+        <EntityType Name="Benutzer">
+          <Key>
+            <PropertyRef Name="Benutzer_id" />
+          </Key>
+          <Property Name="Benutzer_id" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Passwort" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Vorname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nachname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rolle" Type="Int32" Nullable="false" />
+          <Property Name="Semester" Type="Int32" />
+          <Property Name="studiengang" Type="String" MaxLength="25" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Auftraege" Relationship="Self.fk_A_Benutzer" FromRole="Benutzer" ToRole="Auftraege" />
+          <NavigationProperty Name="ausleihe_Prozess" Relationship="Self.fk_Benutzer" FromRole="Benutzer" ToRole="ausleihe_Prozess" />
+        </EntityType>
+        <EntityType Name="Buecher">
+          <Key>
+            <PropertyRef Name="ISBN" />
+          </Key>
+          <Property Name="ISBN" Type="Int32" Nullable="false" />
+          <Property Name="Buch_Titel" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Rechtung" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Beschreibung" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Anzahl" Type="Int32" />
+          <NavigationProperty Name="Auftraege" Relationship="Self.fk_A_Buch" FromRole="Buecher" ToRole="Auftraege" />
+          <NavigationProperty Name="ausleihe_Prozess" Relationship="Self.fk_Buch" FromRole="Buecher" ToRole="ausleihe_Prozess" />
+        </EntityType>
+        <Association Name="fk_A_Benutzer">
+          <End Role="Benutzer" Type="Self.Benutzer" Multiplicity="0..1" />
+          <End Role="Auftraege" Type="Self.Auftraege" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benutzer">
+              <PropertyRef Name="Benutzer_id" />
+            </Principal>
+            <Dependent Role="Auftraege">
+              <PropertyRef Name="Benutzer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_A_Buch">
+          <End Role="Buecher" Type="Self.Buecher" Multiplicity="0..1" />
+          <End Role="Auftraege" Type="Self.Auftraege" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Buecher">
+              <PropertyRef Name="ISBN" />
+            </Principal>
+            <Dependent Role="Auftraege">
+              <PropertyRef Name="ISBN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Benutzer">
+          <End Role="Benutzer" Type="Self.Benutzer" Multiplicity="0..1" />
+          <End Role="ausleihe_Prozess" Type="Self.ausleihe_Prozess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Benutzer">
+              <PropertyRef Name="Benutzer_id" />
+            </Principal>
+            <Dependent Role="ausleihe_Prozess">
+              <PropertyRef Name="Benutzer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_Buch">
+          <End Role="Buecher" Type="Self.Buecher" Multiplicity="0..1" />
+          <End Role="ausleihe_Prozess" Type="Self.ausleihe_Prozess" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Buecher">
+              <PropertyRef Name="ISBN" />
+            </Principal>
+            <Dependent Role="ausleihe_Prozess">
+              <PropertyRef Name="ISBN" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HBSFWI_BibleothekEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Auftraege" EntityType="Self.Auftraege" />
+          <EntitySet Name="ausleihe_Prozess" EntityType="Self.ausleihe_Prozess" />
+          <EntitySet Name="Benutzer" EntityType="Self.Benutzer" />
+          <EntitySet Name="Buecher" EntityType="Self.Buecher" />
+          <AssociationSet Name="fk_A_Benutzer" Association="Self.fk_A_Benutzer">
+            <End Role="Benutzer" EntitySet="Benutzer" />
+            <End Role="Auftraege" EntitySet="Auftraege" />
+          </AssociationSet>
+          <AssociationSet Name="fk_A_Buch" Association="Self.fk_A_Buch">
+            <End Role="Buecher" EntitySet="Buecher" />
+            <End Role="Auftraege" EntitySet="Auftraege" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Benutzer" Association="Self.fk_Benutzer">
+            <End Role="Benutzer" EntitySet="Benutzer" />
+            <End Role="ausleihe_Prozess" EntitySet="ausleihe_Prozess" />
+          </AssociationSet>
+          <AssociationSet Name="fk_Buch" Association="Self.fk_Buch">
+            <End Role="Buecher" EntitySet="Buecher" />
+            <End Role="ausleihe_Prozess" EntitySet="ausleihe_Prozess" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="HBSFWI_BibleothekModelStoreContainer" CdmEntityContainer="HBSFWI_BibleothekEntities">
+          <EntitySetMapping Name="Auftraege">
+            <EntityTypeMapping TypeName="HBSFWI_BibleothekModel.Auftraege">
+              <MappingFragment StoreEntitySet="Auftraege">
+                <ScalarProperty Name="Auftrag_id" ColumnName="Auftrag_id" />
+                <ScalarProperty Name="Auftrag_status" ColumnName="Auftrag_status" />
+                <ScalarProperty Name="Auftrag_datum" ColumnName="Auftrag_datum" />
+                <ScalarProperty Name="Benutzer_id" ColumnName="Benutzer_id" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="FachNr" ColumnName="FachNr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ausleihe_Prozess">
+            <EntityTypeMapping TypeName="HBSFWI_BibleothekModel.ausleihe_Prozess">
+              <MappingFragment StoreEntitySet="ausleihe_Prozess">
+                <ScalarProperty Name="Prozess_id" ColumnName="Prozess_id" />
+                <ScalarProperty Name="Prozess_status" ColumnName="Prozess_status" />
+                <ScalarProperty Name="Prozess_datum" ColumnName="Prozess_datum" />
+                <ScalarProperty Name="Benutzer_id" ColumnName="Benutzer_id" />
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="FachNr" ColumnName="FachNr" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Benutzer">
+            <EntityTypeMapping TypeName="HBSFWI_BibleothekModel.Benutzer">
+              <MappingFragment StoreEntitySet="Benutzer">
+                <ScalarProperty Name="Benutzer_id" ColumnName="Benutzer_id" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Passwort" ColumnName="Passwort" />
+                <ScalarProperty Name="Vorname" ColumnName="Vorname" />
+                <ScalarProperty Name="Nachname" ColumnName="Nachname" />
+                <ScalarProperty Name="Rolle" ColumnName="Rolle" />
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+                <ScalarProperty Name="studiengang" ColumnName="studiengang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Buecher">
+            <EntityTypeMapping TypeName="HBSFWI_BibleothekModel.Buecher">
+              <MappingFragment StoreEntitySet="Buecher">
+                <ScalarProperty Name="ISBN" ColumnName="ISBN" />
+                <ScalarProperty Name="Buch_Titel" ColumnName="Buch_Titel" />
+                <ScalarProperty Name="Rechtung" ColumnName="Rechtung" />
+                <ScalarProperty Name="Beschreibung" ColumnName="Beschreibung" />
+                <ScalarProperty Name="Anzahl" ColumnName="Anzahl" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Kein" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

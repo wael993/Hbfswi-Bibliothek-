@@ -31,7 +31,7 @@ namespace HBSFWI_Bibliotek
         {
             InitializeComponent();
         }
-        private void Login1()
+        private void LOGIN()
         {
           //  student.vonlogin.Text = TB_Username.Text;
           //  Mitarbeiter.vonlogin.Text = TB_Username.Text;
@@ -42,39 +42,39 @@ namespace HBSFWI_Bibliotek
                 TB_Username.Text = "";
                 TB_Password.Password = "";
             }
-
+           
             else
             {
                 try
                 {
-                    using (TOnline__BibleothekEntities1 db = new TOnline__BibleothekEntities1())
-                    {
-                        var list = db.Benutzer.Where(x => x.UserName == TB_Username.Text && x.Passwort == TB_Password.Password).ToList();
+                    using (HBSFWI_BibleothekEntities db = new HBSFWI_BibleothekEntities())    //Verbindung zur Datenbank wird aufgebaut und  neuen DBContext Angelegt. 
+                    { 
+                                              var list = db.Benutzer.Where(x => x.UserName == TB_Username.Text && x.Passwort == TB_Password.Password).ToList();// Zugriff auf ("UserName","Passwort")Spalten in "Benutzer" Tabell. 
                         foreach (var b in list)
                         {
-                            if (b.Rolle == 1)
+                            if (b.Rolle == 1)  //Inhalt der Spalte "Rolle" wird Vergleicht (Wenn 1 => login als Admin)
                             {
                                 admin.Show();
                                 this.Close();
                                 return;
                             }
-                            else if (b.Rolle == 2)
+                            else if (b.Rolle == 2) //Inhalt der Spalte "Rolle" wird Vergleicht (Wenn 2 =>login als Mitarbeiter)
                             {
                                 mitarbeiter.Show();
                                 this.Close();
                                 return;
                             }
-                            else if (b.Rolle == 21 || b.Rolle == 31)
+                            else if (b.Rolle == 3)   //Inhalt der Spalte "Rolle" wird Vergleicht (Wenn 3 =>login als Student)
+                            {
+                                student.Show();
+                                this.Close();
+                                return;
+                            }
+                            else if (b.Rolle == 21 || b.Rolle == 31) //(Wenn 21 oder 31 => Gesperrt Konto)
                             {
                                 MessageBox.Show("Ihre konto ist gesperrt !!" + "\n" + " Bitte kontaktieren Sie der Admin");
                                 TB_Username.Text = "";
                                 TB_Password.Password = "";
-                                return;
-                            }
-                            else if (b.Rolle == 3)
-                            {
-                                student.Show();
-                                this.Close();
                                 return;
                             }
                         }
@@ -89,38 +89,26 @@ namespace HBSFWI_Bibliotek
                 }
             }
         }
-        private void BTN_Clear_Click(object sender, RoutedEventArgs e)
+        private void BTN_Clear_Click(object sender, RoutedEventArgs e) //wenn User auf Button Clear Clickt
         {
             TB_Username.Text = "";
             TB_Password.Password = "";
-
         }
-        private void BTN_LOGIN_Click(object sender, RoutedEventArgs e)
+        private void BTN_LOGIN_Click(object sender, RoutedEventArgs e)//wenn User auf Button login Clickt
         {
-            Login1();
+            LOGIN();
         }
         private void Grid_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter)     //wenn User Enter auf Tastatur tippt  ==>Login
             {
-                Login1();
+                LOGIN();
             }
-            else if (e.Key == Key.Delete)
+            else if (e.Key == Key.Delete) //wenn User Delete auf Tastatur tippt  ==> Username und Passwot von Textbox löschen
             {
                 TB_Username.Text = "";
                 TB_Password.Password = "";
             }
-        }
-
-        private void LogIn(object sender, ExecutedRoutedEventArgs e)
-        {
-            Login1();
-        }
-
-        private void Clear(object sender, ExecutedRoutedEventArgs e)
-        {
-            TB_Username.Text = "";
-            TB_Password.Password = "";
         }
     }
 }
