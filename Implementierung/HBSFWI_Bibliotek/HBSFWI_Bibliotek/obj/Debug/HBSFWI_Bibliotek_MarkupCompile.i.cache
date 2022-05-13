@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Implementierung\HBSFWI_Bibliotek\HBSFWI_Bibliotek\App.xaml
-11151548125
+4589275229
 
-61434861427
+9-737976609
 13-1505183044
-MainWindow.xaml;
+Admin.xaml;MainWindow.xaml;Mitarbeiter.xaml;Student.xaml;
 
-True
+False
 
