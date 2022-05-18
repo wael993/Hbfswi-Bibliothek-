@@ -26,3 +26,7 @@ C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Implementierung\HBSFWI_
 C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Implementierung\HBSFWI_Bibliotek\HBSFWI_Bibliotek\obj\Debug\HBSFWI_Bibliotek.csproj.CopyComplete
 C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Implementierung\HBSFWI_Bibliotek\HBSFWI_Bibliotek\obj\Debug\HBSFWI_Bibliotek.exe
 C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Implementierung\HBSFWI_Bibliotek\HBSFWI_Bibliotek\obj\Debug\HBSFWI_Bibliotek.pdb
+C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Implementierung\HBSFWI_Bibliotek\HBSFWI_Bibliotek\obj\Debug\Login.g.cs
+C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Implementierung\HBSFWI_Bibliotek\HBSFWI_Bibliotek\obj\Debug\Willkommen.g.cs
+C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Implementierung\HBSFWI_Bibliotek\HBSFWI_Bibliotek\obj\Debug\Login.baml
+C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Implementierung\HBSFWI_Bibliotek\HBSFWI_Bibliotek\obj\Debug\Willkommen.baml
