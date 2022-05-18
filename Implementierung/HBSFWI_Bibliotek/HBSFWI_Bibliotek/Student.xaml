@@ -5,8 +5,139 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HBSFWI_Bibliotek"
         mc:Ignorable="d"
-        Title="Student" Height="450" Width="800">
-    <Grid>
-        
+        Title="Student"   Height="600" Width="1200" WindowState="Maximized">
+    <Grid x:Name="Parents_Grid">
+        <Grid.Background>
+            <ImageBrush ImageSource="C:\Users\Wael_zobani\Desktop\project Vorbereit\Vorabgabe\Img\uni.jpg" />
+        </Grid.Background>
+       
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Background="#3BB9FF">
+            <Button BorderThickness="0"  Content=" HBFSWI"  Foreground="White" Background="#3BB9FF" FontSize="30" FontWeight="Bold" Height="62" Click="HauptWindows_Click"/>
+
+            <TextBlock  Foreground="Black" Background="#3BB9FF" FontSize="12" FontWeight="Bold" Height="63" Margin="0,0,0.5,0">
+                Höhere Berufsfachschule für <LineBreak/>
+                Wirtschaftsinformatik
+            </TextBlock>
+            <Button BorderThickness="0" Background="#3BB9FF" Foreground="White" FontSize="15" FontWeight="Bold"  Content="Ausleihen" Height="75" Click="Ausleihen_Click"/>
+            <Button BorderThickness="0" Background="#3BB9FF" Foreground="White" FontSize="15" FontWeight="Bold"  Content="Aktuelle und Status" Height="75" Click="Button_Click" />
+            <Button BorderThickness="0" Background="#3BB9FF" Foreground="White" FontSize="15" FontWeight="Bold"  Content="Logout" Height="75" Click="Btn_LogOut_Click" />
+        </StackPanel>
+
+        <Grid x:Name="Child_grid" Grid.Column="1" Visibility="Visible">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Height="75" TextAlignment="Center" Padding="15" Grid.Row="0" Background="#3BB9FF" Foreground="White" FontSize="30" FontWeight="Bold"   Text="Schulbibliothek"/>
+    </Grid>
+        <!--#region   (Ausleihen_verwaltung_Student)   -->
+        <Grid x:Name="Ausleihen_verwaltung_Student"  Grid.Column="1" Background="#3BB9FF"  Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+
+
+            </Grid.RowDefinitions>
+
+
+            <TextBlock  Grid.Row="0" Text="Bücher Ausleihen" Padding="15" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="75" Background="#3BB9FF" Foreground="White" FontSize="30" FontWeight="Bold"/>
+            <TextBox    Grid.Row="1"  x:Name="tbx_Buch_suche" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="22"  Width="550" Foreground="LightGray"   TextChanged="TB_BuchSuche_TextChanged" />
+            <TextBlock  Grid.Row="2"  Text="suche kann nach name ,ISBN,Rechtung durchgefürt werden "  VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="10" Height="20"  />
+            <WrapPanel Grid.Row="3" Height="44">
+                <Label  Content="{Binding ElementName=Bucher_DataGrid, Path=Items.Count}"  FontSize="22" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <TextBlock   Text="ERGEBNISSE ZU " FontSize="22"  VerticalAlignment="Center" HorizontalAlignment="Center" />
+                <Label   FontSize="22"  Content="{Binding Text,ElementName=tbx_Buch_suche,UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Center" HorizontalAlignment="Center"  />
+            </WrapPanel>
+
+            <DataGrid Grid.Row="4"
+                      Name="Bucher_DataGrid"
+                      ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"               
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      IsSynchronizedWithCurrentItem="True"
+                      RowHeight="35">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Buch Titel" Width="240"  Binding="{Binding Buch_Titel}"  />
+                    <DataGridTextColumn Header="ISBN " Width="80"  Binding="{Binding ISBN}" />
+                    <DataGridTextColumn Header="Rechtung " Width="150"  Binding="{Binding Rechtung}"/>
+                    <DataGridTextColumn Header="Anzahl" Width="60"  Binding="{Binding Anzahl}"/>
+                    <DataGridTextColumn Header="Beschreibung" Width="*"  Binding="{Binding Beschreibung}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <WrapPanel Grid.Row="5" Height="55">
+                <Button  x:Name="BuchAusleihen" Content="Ausgewählte Buch Ausleihen" Click="BuchAusleihen_Click"  Foreground="White" Background="#50C878"  FontSize="22"  Margin="10,10,18,10" />
+                <Label  Content=" Sie können nur 3 bücher aufeinmal leihen" FontSize="22" Foreground="Red" VerticalAlignment="Center"  Margin="10,10,10,10" />
+
+            </WrapPanel>
+
+            <Label Grid.Row="5" x:Name="Hidden_buchISBN" Content="{Binding ISBN}" Visibility="Hidden" />
+            <Label Grid.Row="5" x:Name="Hidden_buchAnzahl" Content="{Binding Anzahl}" Visibility="Hidden" />
+            <Label Grid.Row="5" x:Name="Hidden_buchRechtung" Content="{Binding Rechtung}" Visibility="Hidden" />
+            <TextBox x:Name="vonlogin" Grid.Column="1" Grid.Row="2" IsEnabled="False" Visibility="Hidden"/>
+
+        </Grid>
+        <!--#endregion  (Ausleihen_verwaltung_Student)-->
+
+        <!--#region   (Aktuelle_und_Status)   -->
+
+
+        <Grid x:Name="Aktuelle_und_Status"  Grid.Column="1" Background="#3BB9FF"  Visibility="Visible">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <TextBlock  Grid.Row="0" Text="Aktuelle und Status" Padding="15" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="75" Background="#3BB9FF" Foreground="White" FontSize="30" FontWeight="Bold"  />
+
+            <DataGrid Grid.Row="1"
+                      Name="AktuelleUndStatus"
+                      ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"               
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      IsSynchronizedWithCurrentItem="True"
+                      RowHeight="35">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Prozess id" Width="80"  Binding="{Binding Prozess_id}"  />
+                    <DataGridTextColumn Header="Prozess status " Width="auto"  Binding="{Binding Prozess_status}" />
+                    <DataGridTextColumn Header="Benutzer id" Width="60"  Binding="{Binding Benutzer_id}"/>
+                    <DataGridTextColumn Header="ISBN" Width="80"  Binding="{Binding ISBN}"/>
+                    <DataGridTextColumn Header="Fach " Width="80"  Binding="{Binding FachNr}"/>
+                    <DataGridTextColumn Header="Prozess datum " Width="*"  Binding="{Binding Prozess_datum}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <!--<Button Grid.Row="4" Grid.Column="2"  x:Name="Buch_zurueck" Content="Ausgewählte Buch zurückgeben" Click="Buch_zurueck_Click"  Foreground="White" Background="#50C878"    Height="40"  FontSize="22"  Margin="517,10,19,10"/>-->
+
+
+
+            <Label  x:Name="Anzahl_Ausgeleihtete_Bücher" Content="{Binding ElementName=AktuelleUndStatus, Path=Items.Count}" Visibility="Hidden" />
+
+            <Label  x:Name="Hidden_ausbuchISBN" Content="{Binding ISBN}" Visibility="Hidden" />
+
+
+
+        </Grid>
+        <!--#endregion  (Aktuelle_und_Status)-->
+
+
     </Grid>
 </Window>

@@ -34,7 +34,7 @@ namespace HBSFWI_Bibliotek
 
         private void LOGIN()
         {
-            //  student.vonlogin.Text = TB_Username.Text;
+              student.vonlogin.Text = TB_Username.Text;
             //  Mitarbeiter.vonlogin.Text = TB_Username.Text;
             // admin.vonlogin.Text = TB_Username.Text;
             if (TB_Username.Text == "" || TB_Password.Password == "")
