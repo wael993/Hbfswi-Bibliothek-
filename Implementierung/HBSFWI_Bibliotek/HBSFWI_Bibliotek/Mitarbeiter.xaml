@@ -4,9 +4,360 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:HBSFWI_Bibliotek"
-        mc:Ignorable="d"
-        Title="Mitarbeiter" Height="450" Width="800">
-    <Grid>
+        mc:Ignorable="d" Height="600" Width="1200" WindowState="Maximized">
+    <Grid x:Name="Parents_Grid">
+        <Grid.Background>
+            <ImageBrush ImageSource="Img\uni.jpg" />
+        </Grid.Background>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" Background="#3BB9FF">
+
+            <Button BorderThickness="0"  Content=" HBFSWI"  Foreground="White" Background="#3BB9FF" FontSize="30" FontWeight="Bold" Height="62" Click="HauptWindows_Click"/>
+            <TextBlock  Foreground="Black" Background="#3BB9FF" FontSize="12" FontWeight="Bold" Height="63" Margin="0,0,0.5,0">
+                Höhere Berufsfachschule für <LineBreak/>
+                Wirtschaftsinformatik
+            </TextBlock>
+            <Button BorderThickness="0" Background="#3BB9FF" Foreground="White" FontSize="15" FontWeight="Bold"  Content="Bucher verwaltung" Height="75" Click="BucherVerwaltung_Click"/>
+            <Button BorderThickness="0" Background="#3BB9FF" Foreground="White" FontSize="15" FontWeight="Bold"  Content="Student Verwalten" Height="75" Click="Student_Click" />
+            <Button BorderThickness="0" Background="#3BB9FF" Foreground="White" FontSize="15" FontWeight="Bold"  Content="Bücher Zurück " Height="75"  Click="Buecher_Zurueck_Click" />
+
+            <Button BorderThickness="0" Background="#3BB9FF" Foreground="White" FontSize="15" FontWeight="Bold"  Content="Aufträge " Height="75"  Click="Btn_Auftraege_Click" />
+            <Button BorderThickness="0" Background="#3BB9FF" Foreground="White" FontSize="15" FontWeight="Bold"  Content="Logout" Height="75" Click="Btn_LogOut_Click" />
+            <TextBlock VerticalAlignment="Center" Foreground="White" FontSize="15" FontWeight="Bold">
+                <Run  Text=" Angemeldet als "  /> 
+               <LineBreak/>
+                <Run  Text="{Binding Text,ElementName=vonlogin}"/>
+            </TextBlock>
+        </StackPanel>
+
+        <Grid x:Name="Child_grid" Grid.Column="1" Visibility="Visible">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Height="75" TextAlignment="Center" Padding="15" Grid.Row="0" Background="#3BB9FF" Foreground="White" FontSize="30" FontWeight="Bold"   Text="Schulbibliothek"/>
+        </Grid>
+
+
+
+
+
+        <!--#region (Bucher_verwaltung)   -->
+
+        <Grid x:Name="Bucher_verwaltung_Mitarbeiter"  Grid.Column="1" Background="#3BB9FF"  Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock  Height="75" TextAlignment="Center" Padding="15" Grid.Row="0" Background="#3BB9FF" Foreground="White" FontSize="30" FontWeight="Bold"   Text="Bucher verwaltung"/>
+
+            <DataGrid Grid.Row="1" 
+                      ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"               
+                      IsReadOnly="False"
+                      CanUserAddRows="False"
+                      IsSynchronizedWithCurrentItem="True"
+                      RowHeight="35">
+
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Buch Titel" Width="220"  Binding="{Binding Buch_Titel}"  />
+                    <DataGridTextColumn Header="ISBN " Width="80" IsReadOnly="True"  Binding="{Binding ISBN}" />
+                    <DataGridTextColumn Header="Rechtung " Width="160"  Binding="{Binding Rechtung}"/>
+                    <DataGridTextColumn Header="Anzahl" Width="60"  Binding="{Binding Anzahl}"/>
+                    <DataGridTextColumn Header="Beschreibung" Width="*"  Binding="{Binding Beschreibung}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+
+
+            <Grid Background="AliceBlue"  Grid.Row="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Buch Titel:" Grid.Row="0" Grid.Column="0" Margin="0 10 50 0"/>
+                <TextBox x:Name="TB_new_buch_Titel" Grid.Row="0" Grid.Column="1" FontSize="22"  Margin="0 10 0 0"/>
+
+                <Label Content="ISBN " Grid.Row="1" Grid.Column="0" Margin="0 10 50 0"/>
+                <TextBox x:Name="TB_New_ISBN" Grid.Row="1" Grid.Column="1" FontSize="22" Margin="0 10 0 0"/>
+
+                <Label Content="Rechtung " Grid.Row="2" Grid.Column="0" Margin="0 10 50 0"/>
+                <ComboBox x:Name="CB_Rechtung" Text="Select Rechtung" FontSize="22" Margin="0 10 0 0" Grid.Row="2" Grid.Column="1"  IsEditable="true"
+                     IsReadOnly="true"  >
+                    <ComboBoxItem >Systemintegration</ComboBoxItem>
+                    <ComboBoxItem>Anwendungsentwicklung</ComboBoxItem>
+                </ComboBox>
+
+                <Label Content="Anzahl " Grid.Row="3" Grid.Column="0"  Margin="0 10 50 0"/>
+                <TextBox x:Name="TB_new_Anzahl" Grid.Row="3" Grid.Column="1" FontSize="22" Margin="0 10 0 0" />
+
+                <Label  Content="Beschreibung:" Grid.Row="0" Grid.Column="2" Margin="0 10 20 0" HorizontalAlignment="Right"/>
+                <TextBox   x:Name="TB_new_Beschreibung"  TextWrapping="Wrap" AcceptsReturn="True" Grid.Row="0" Grid.RowSpan="3" Grid.Column="3" Grid.ColumnSpan="4"  FontSize="22" Margin="0 10 20 10"/>
+
+                <Button x:Name="Btn_Loeschen" Content="Löschen" Foreground="White" Background="red" Grid.Row="4" Grid.Column="2" FontSize="22"  Height="40"  Margin="40 10 40 10"   Click="Btn_BuecherLoeschen_Click"/>
+                <Button x:Name="Btn_Updat" Content="Updat"  Foreground="White" Background="Orange" Grid.Row="4" Grid.Column="3" FontSize="22"  Height="40"  Margin="40 10 40 10" Click="Btn_BuecherUpdat_Click"/>
+                <Button x:Name="Btn_hinzufuegen" Content="Hinzufuegen"  Foreground="White" Background="#50C878"  Grid.Row="4" Grid.Column="4"  Height="40"  FontSize="22"  Margin="40 10 40 10" Click="Btn_BuecherHinzufuegen_Click"/>
+
+                <Label  Grid.Column="1" Grid.Row="1" x:Name="Hidden_ISBN" Content="{Binding ISBN}" Visibility="Hidden" />
+                <TextBlock x:Name="vonlogin" Grid.Column="1" Grid.Row="2" IsEnabled="False" Visibility="Hidden"/>
+            </Grid>
+        </Grid>
+        <!--#endregion  (Bucher_verwaltung)-->
+
+        <!--#region   (Student_verwaltung)   -->
+        <Grid x:Name="Student_verwaltung_Mitarbeiter"  Grid.Column="1" Background="#3BB9FF"  Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock  Grid.Row="0" Text="Student Verwaltung" Padding="15" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="75" Background="#3BB9FF" Foreground="White" FontSize="30" FontWeight="Bold"  />
+
+            <DataGrid Grid.Row="1" 
+                      ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"               
+                      IsReadOnly="False"
+                      CanUserAddRows="False"
+                      IsSynchronizedWithCurrentItem="True"
+                      RowHeight="35">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Vorname" Width="80" Binding="{Binding Vorname}"  />
+                    <DataGridTextColumn Header="Nachname" Width="80" Binding="{Binding Nachname}" />
+                    <DataGridTextColumn Header="Student ID" Width="80" IsReadOnly="True" Binding="{Binding Benutzer_id}"/>
+                    <DataGridTextColumn Header="Studiengang" Width="80" Binding="{Binding studiengang}"/>
+                    <DataGridTextColumn Header="Semester" Width="80" Binding="{Binding Semester}"/>
+                    <DataGridTextColumn Header="Status" Width="60" IsReadOnly="True" Binding="{Binding Rolle}"/>
+                    <!--MItareiter dürfen kein Rolle änderen-->
+                    <DataGridTextColumn Header="User Name" Width="80" Binding="{Binding UserName}"/>
+                    <DataGridTextColumn Header="Passwort" Width="*"  Binding="{Binding Passwort}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Grid Background="AliceBlue"  Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Vorname :" Grid.Row="0" Grid.Column="0" FontSize="18" Margin="0 10 50 0"/>
+                <TextBox x:Name="TB_StudentVorName" Grid.Row="0" Grid.Column="1" FontSize="22"  Margin="0 10 0 0"/>
+
+                <Label Content="Nachname:" Grid.Row="0" Grid.Column="2" FontSize="18" Margin="0 10 50 0" HorizontalAlignment="Right"/>
+                <TextBox x:Name="TB_StudentNachName" Grid.Row="0" Grid.Column="3" FontSize="22" Margin="0 10 0 0"/>
+
+                <Label Content="Student_ID " Grid.Row="1" Grid.Column="0"  FontSize="18" Margin="0 10 50 0"/>
+                <TextBox x:Name="TB_StudentID" Grid.Row="1" Grid.Column="1" FontSize="22" Margin="0 10 0 0" />
+
+                <Label  Content="Studiengang:" Grid.Row="1" Grid.Column="2" FontSize="18" Margin="0 10 50 0" HorizontalAlignment="Right"/>
+                <ComboBox x:Name="CB_Studienangang" Text="Select Studienangang" FontSize="22" Margin="0 10 0 0" Grid.Row="1" Grid.Column="3"  IsEditable="true"
+                     IsReadOnly="true"  >
+                    <ComboBoxItem>Anwendungsentwicklung</ComboBoxItem>
+                    <ComboBoxItem>Systemintegration</ComboBoxItem>
+                </ComboBox>
+
+                <Label Content="Stufe " Grid.Row="2" Grid.Column="0" FontSize="18" Margin="0 10 50 0"/>
+                <ComboBox x:Name="CB_StudentSemester" Text="Select Stufe" FontSize="22" Margin="0 10 0 0" Grid.Row="2" Grid.Column="1"  IsEditable="true"
+                     IsReadOnly="true"  >
+                    <ComboBoxItem>1</ComboBoxItem><!--Unterestufe-->
+                    <ComboBoxItem>2</ComboBoxItem><!--Oberestufe-->
+
+                </ComboBox>
+
+                <Label Content="Status " Grid.Row="2" Grid.Column="2" FontSize="18" Margin="0 10 50 0" HorizontalAlignment="Right"/>
+                <ComboBox x:Name="CB_StudentStatus" Text="Select Status" FontSize="22" Margin="0 10 0 0" Grid.Row="2" Grid.Column="3"  IsEditable="true"
+                     IsReadOnly="true">
+
+                    <ComboBoxItem>Aktiv</ComboBoxItem>
+                    <ComboBoxItem>gesperrt</ComboBoxItem>
+                </ComboBox>
+
+                <Label Content="User Name :" Grid.Row="3" Grid.Column="0" FontSize="18" Margin="0 10 50 0"/>
+                <TextBox x:Name="TB_SdtudentUserName" Grid.Row="3" Grid.Column="1" FontSize="22"  Margin="0 10 0 0"/>
+
+                <Label Content="Passwort:" Grid.Row="3" Grid.Column="2" FontSize="18" Margin="0 10 50 0" HorizontalAlignment="Right"/>
+                <TextBox x:Name="TB_SdtudentPass" Grid.Row="3" Grid.Column="3" FontSize="22" Margin="0 10 0 0"/>
+
+
+                <Button x:Name="BT_StudentLoeschen" Content="Löschen" Foreground="White" Background="red" Grid.Row="4" Grid.Column="2" FontSize="22"  Height="40"  Margin="40 10 40 10"   Click="BT_StudentLoeschen_Click"/>
+                <Button x:Name="Bt_StudentUpdat" Content="Updat"  Foreground="White" Background="Orange" Grid.Row="4" Grid.Column="3" FontSize="22"  Height="40"  Margin="40 10 40 10" Click="Bt_StudentUpdat_Click"/>
+                <Button x:Name="Bt_StudentHinzufuegen" Content="Hinzufuegen"  Foreground="White" Background="#50C878"  Grid.Row="4" Grid.Column="4"  Height="40"  FontSize="22"  Margin="40 10 40 10" Click="Bt_StudentHinzufuegen_Click"/>
+
+                <Label  Grid.Column="2" Grid.Row="5" x:Name="Hidden_St_ID"  Visibility="Hidden" Content="{Binding Benutzer_id}"/>
+            </Grid>
+        </Grid>
+
+        <!--#endregion  (Student_verwaltung)-->
+
         
+        
+        
+        <!--#region   (Rückgabe_verwaltung_Mitarbeiter)   -->
+
+        <Grid x:Name="Rückgabe_verwaltung_Mitarbeiter"  Grid.Column="1" Background="#3BB9FF"  Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+           
+
+            <TextBlock  Grid.Row="0" Text="Bücher zurückgeben" Padding="15" VerticalAlignment="Center" HorizontalAlignment="Center"  Height="75" Background="#3BB9FF" Foreground="White" FontSize="30" FontWeight="Bold"  />
+
+            <DataGrid Grid.Row="1"
+                      Name="Liste_fuer_Ausgeleitete_Buecher"
+                      ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"               
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      IsSynchronizedWithCurrentItem="True"
+                      RowHeight="35">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Prozess id" Width="80"  Binding="{Binding Prozess_id}"  />
+                    <DataGridTextColumn Header="Prozess status " Width="auto"  Binding="{Binding Prozess_status}" />
+                    <DataGridTextColumn Header="Benutzer id" Width="60"  Binding="{Binding Benutzer_id}"/>
+                    <DataGridTextColumn Header="ISBN" Width="80"  Binding="{Binding ISBN}"/>
+                    <DataGridTextColumn Header="Fach " Width="80"  Binding="{Binding FachNr}"/>
+                    <DataGridTextColumn Header="Prozess datum " Width="*"  Binding="{Binding Prozess_datum}"/>
+                </DataGrid.Columns>
+            </DataGrid>
+
+            <Button Grid.Row="2"  x:Name="Buch_zurueck" Content="Ausgewählte Buch zurückgeben" Click="Buch_zurueck_Click"  Foreground="White" Background="#50C878"    Height="40"  FontSize="22"  Width="500"/>
+
+            <Label Grid.Row="2" x:Name="Anzahl_Ausgeleihtete_Bücher" Content="{Binding ElementName=Liste_fuer_Ausgeleitete_Buecher, Path=Items.Count}" Visibility="Hidden" />
+            <Label Grid.Row="2" x:Name="Hidden_ausbuchISBN" Content="{Binding ISBN}" Visibility="Hidden" />
+            <Label Grid.Row="2" x:Name="Hidden_user_ID" Content="{Binding Benutzer_id}" Visibility="Hidden" />
+
+        </Grid>
+
+        <!--#endregion  (Rückgabe_verwaltung_Mitarbeiter)-->
+
+
+        <!--#region   (Auftraege_Mitarbeiter)   -->
+
+        <Grid x:Name="Auftraege_Mitarbeiter"  Grid.Column="1" Background="#3BB9FF"  Visibility="Hidden" PreviewKeyDown="Auftraege_Mitarbeiter_PreviewKeyDown">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition />
+                <RowDefinition Height="auto"/>
+
+
+            </Grid.RowDefinitions>
+     
+            <TextBlock Grid.Row="0" Text="Vorhandene Aufträge " TextAlignment="Center" Padding="15"  Background="#3BB9FF" Foreground="White" FontSize="30" FontWeight="Bold"   />
+
+
+
+            <DataGrid Grid.Row="1" 
+                      Name="DG_Auftraege"
+                      ItemsSource="{Binding}"
+                      AutoGenerateColumns="False"               
+                      IsReadOnly="True"
+                      CanUserAddRows="False"
+                      IsSynchronizedWithCurrentItem="True"
+                      RowHeight="35" >
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Setter Property="IsHitTestVisible" Value="True"></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Auftrag_status}" Value="In Bearbeitung">
+                                <Setter Property="Background" Value="#F7F371"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Auftrag_status}" Value="Abhol bereit">
+                                <Setter Property="Background" Value="#33FF80"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Auftrag_status}" Value="Abgeschlossen">
+                                <Setter Property="Background" Value="#AED5EA"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Auftrag id"      Width="80"  Binding="{Binding Auftrag_id}"  />
+                    <DataGridTextColumn Header="Auftrag status " Width="auto"  Binding="{Binding Auftrag_status}" />
+                    <DataGridTextColumn Header="Benutzer id"     Width="60"  Binding="{Binding Benutzer_id}"/>
+                    <DataGridTextColumn Header="ISBN" Width="80"  Binding="{Binding ISBN}"/>
+                    <DataGridTextColumn Header="Fach " Width="80"  Binding="{Binding FachNr}"/>
+                    <DataGridTextColumn Header="Auftrag datum " Width="*"  Binding="{Binding Auftrag_datum}"/>
+
+                </DataGrid.Columns>
+            </DataGrid>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Button x:Name="bearbeitet" Content="Bearbeitet" Click="bearbeitet_Click"  Foreground="White" Width="220" Background="#50C878"  FontSize="22" Margin="7" />
+                    <Button x:Name="drueck"     Content="Drücken"    Click="drueck_Click"      Foreground="White" Width="220" Background="#50C878"  FontSize="22" Margin="7"  />
+
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <RadioButton x:Name="In_Bearbeitung" FontWeight="DemiBold" Content="In Bearbeitung" FontSize="22"  Margin="10 5 10 0" Click="In_Bearbeitung_Click" ></RadioButton>
+                    <RadioButton x:Name="Abhol_bereit"   FontWeight="DemiBold" Content="Abhol bereit"   FontSize="22"  Margin="10 5 10 0" Click="Abhol_bereit_Click"></RadioButton>
+                    <RadioButton x:Name="Abgeschlossen"  FontWeight="DemiBold" Content="Abgeschlossen"  FontSize="22"  Margin="10 5 10 0" Click="Abgeschlossen_Click"></RadioButton>
+
+
+                </StackPanel>
+                
+                
+                
+            </Grid>
+             <Label Grid.Row="3" Grid.Column="1"  x:Name="Hidden_Auftrag_NR" Content="{Binding Auftrag_id}" Visibility="Hidden" />
+
+
+
+            <!--<Label Grid.Row="5" Grid.Column="1"  x:Name="Adxnzahl_Ausgeleihtete_Bücher" Content="{Binding ElementName=zdata, Path=Items.Count}" Visibility="Visible" />-->
+
+            <Label Grid.Row="4" Grid.Column="1"  x:Name="Hdidden_status" Content="{Binding Auftrag_status}" Visibility="Hidden" />
+
+        </Grid>
+
+        <!--#endregion  (Auftraege_Mitarbeiter)-->
+
+
     </Grid>
 </Window>

@@ -53,11 +53,10 @@ namespace HBSFWI_Bibliotek
 
 
 
-        #region Ausleihen_verwaltung_Admin 
+        #region Ausleihen_verwaltung_Student 
 
         private void Ausleihen_Click(object sender, RoutedEventArgs e)
         {
-            //var gesuchtete_bücher = ctx.Buecher.Where(x => x.Anzahl > 0).ToList();
             Ausleihen_verwaltung_Student.DataContext = ctx.Buecher.Local;
             Aktuelle_und_Status.Visibility = Visibility.Hidden;
             Child_grid.Visibility = Visibility.Hidden;
@@ -153,6 +152,8 @@ namespace HBSFWI_Bibliotek
 
         #endregion
 
+
+        #region Aktuelle und Status
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Aktuelle_und_Status.Visibility = Visibility.Visible;
@@ -171,5 +172,13 @@ namespace HBSFWI_Bibliotek
             var ausgeleitete_bücher = ctx.ausleihe_Prozess.Where(x => x.Benutzer_id == USer_id).ToList();
             Aktuelle_und_Status.DataContext = ausgeleitete_bücher;
         }
+        //private void Buch_zurueck_Click(object sender, RoutedEventArgs e)
+        //{
+
+
+
+        //}
+        #endregion
+
     }
 }
